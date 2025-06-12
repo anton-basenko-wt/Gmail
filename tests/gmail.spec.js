@@ -19,4 +19,10 @@ test.describe('Gmail with context', () => {
         await mainPage.composeButton.click();
         await expect(mainPage.composeRegion).toBeVisible();
     });
+
+    test('should close compose region', async ({ page }) => {
+        await mainPage.composeButton.click();
+        await page.getByRole('img', { name: 'Save & close' }).click();
+        await expect(mainPage.composeRegion).toHaveCount(0);
+    });
 });
