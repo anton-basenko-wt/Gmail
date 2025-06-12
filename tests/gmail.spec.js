@@ -1,5 +1,6 @@
 import { test, expect } from './fixtures/persistentContext';
 import { MainPage } from '../pages/mainPage';
+import { generateHash } from "../utils/hashGen";
 
 /** @type {import('../pages/mainPage').MainPage}*/
 let mainPage;
@@ -43,7 +44,7 @@ test.describe('Gmail with context', () => {
 
     test('should send email to self', async ({ page }) => {
         // 7-digit long hexadecimal hash
-        const randomSubject = Math.floor(Math.random() * 0x10000000).toString(16).padStart(7, '0');
+        const randomSubject = generateHash(7);
         const text = 'Hello there!';
         await mainPage.sendEmail(email, randomSubject, text);
         const message = await mainPage.getMessageBySubject(randomSubject);
