@@ -4,7 +4,7 @@ import { generateHash } from "../utils/hashGen";
 
 /** @type {import('../pages/mainPage').MainPage}*/
 let mainPage;
-let email = 'hello.there.pw@gmail.com';
+let emailAddress = 'hello.there.pw@gmail.com';
 
 test.describe('Gmail with context', () => {
     test.beforeEach(async ({ page }) => {
@@ -39,14 +39,14 @@ test.describe('Gmail with context', () => {
             expect(dialog.message()).toMatch(/Send.*without.*subject.*text/i);
             await dialog.dismiss(); // или dialog.accept();
         });
-        await mainPage.sendEmail(email, '', '');
+        await mainPage.sendEmail(emailAddress, '', '');
     });
 
     test('should send email to self', async ({ page }) => {
         // 7-digit long hexadecimal hash
         const randomSubject = generateHash(7);
         const text = 'Hello there!';
-        await mainPage.sendEmail(email, randomSubject, text);
+        await mainPage.sendEmail(emailAddress, randomSubject, text);
         const message = await mainPage.getMessageBySubject(randomSubject);
         await expect(message).toBeVisible();
         // message should contain the start of the text
@@ -59,7 +59,7 @@ test.describe('Gmail with context', () => {
         const text = 'Hello there!';
 
         await test.step('send email', async ({ page }) => {
-            await mainPage.sendEmail(email, randomSubject, text);
+            await mainPage.sendEmail(emailAddress, randomSubject, text);
         });
 
         // get the message locator
@@ -84,7 +84,7 @@ test.describe('Gmail with context', () => {
         const text = 'Hello there!';
 
         await test.step('send email', async ({ page }) => {
-            await mainPage.sendEmail(email, randomSubject, text);
+            await mainPage.sendEmail(emailAddress, randomSubject, text);
         });
 
         // get the message locator
@@ -109,7 +109,7 @@ test.describe('Gmail with context', () => {
         const text = 'Hello there!';
 
         await test.step('send email', async ({ page }) => {
-            await mainPage.sendEmail(email, randomSubject, text);
+            await mainPage.sendEmail(emailAddress, randomSubject, text);
         });
 
         // get the message locator
@@ -130,6 +130,36 @@ test.describe('Gmail with context', () => {
 
         await test.step('check its unread', async ({ page }) => {
             await expect(message).toContainText('unread');
+        });
+    });
+
+    test('should forward message', async ({ page }) => {
+        // 7-digit long hexadecimal hash
+        const randomSubject = generateHash(7);
+        const text = 'Hello there!';
+
+        await test.step('send email', async ({ page }) => {
+            await mainPage.sendEmail(emailAddress, randomSubject, text);
+        });
+
+        // get the message locator
+        const message = await mainPage.getMessageBySubject(randomSubject);
+        await test.step('mark as read', async ({ page }) => {
+            await message.click({ button: 'right' });
+            await mainPage.menuitemMarkAsRead.click();
+        });
+
+        await test.step('forward email', async ({ page }) => {
+            await mainPage.forwardEmail(message, emailAddress);
+        });
+
+        // get the forwarded message locator
+        const forwardedMessage = page.locator(
+            'tr',
+            { hasText: new RegExp(`${randomSubject}.*forwarded|forwarded.*${randomSubject}`, 'i') }
+        ).last();
+        await test.step('check we received forwarded message', async ({ page }) => {
+            await expect(forwardedMessage).toBeVisible();
         });
     });
 });

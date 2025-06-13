@@ -23,12 +23,14 @@ export class MainPage {
     menuitemMarkAsRead;
     /** @type {import('@playwright/test').Locator} */
     menuitemMarkAsUnread;
+    /** @type {import('@playwright/test').Locator} */
+    menuitemForward;
 
     constructor(page) {
         this.page = page;
         this.composeButton = this.page.getByRole('button', {name: 'Compose'});
         this.composeRegion = this.page.getByRole('region', {name: 'New Message'});
-        this.recipientsInput = this.composeRegion.getByRole('combobox', {name: 'To recipients'});
+        this.recipientsInput = this.page.getByRole('combobox', {name: 'To recipients'});
         this.subjectInput = this.composeRegion.getByPlaceholder('Subject');
         this.messageInput = this.composeRegion.getByRole('textbox', {name: 'Message Body'});
         this.sendButton = this.page.getByRole('button', {name: /Send.*Enter/i});
@@ -36,6 +38,7 @@ export class MainPage {
         this.menuitemDelete = this.page.getByRole('menuitem', {name: 'Delete'});
         this.menuitemMarkAsRead = this.page.getByRole('menuitem', {name: 'Mark as read'});
         this.menuitemMarkAsUnread = this.page.getByRole('menuitem', {name: 'Mark as unread'});
+        this.menuitemForward = this.page.getByRole('menuitem', {name: 'Forward', exact: true});
     }
 
     async goto() {
@@ -49,6 +52,13 @@ export class MainPage {
             await this.subjectInput.fill(subject);
         }
         await this.messageInput.fill(message);
+        await this.sendButton.click();
+    }
+
+    async forwardEmail(email, to) {
+        await email.click({ button: 'right' });
+        await this.menuitemForward.click();
+        await this.recipientsInput.fill(to);
         await this.sendButton.click();
     }
 
