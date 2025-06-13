@@ -52,4 +52,29 @@ test.describe('Gmail with context', () => {
         // message should contain the start of the text
         await expect(message).toContainText(text.length > 10 ? text.substring(10) : text);
     });
+
+    test('should delete message', async ({ page }) => {
+        // 7-digit long hexadecimal hash
+        const randomSubject = generateHash(7);
+        const text = 'Hello there!';
+
+        await test.step('send email', async ({ page }) => {
+            await mainPage.sendEmail(email, randomSubject, text);
+        });
+
+        // get the message locator
+        const message = await mainPage.getMessageBySubject(randomSubject);
+        await test.step('check that we received the message', async ({ page }) => {
+            await expect(message).toBeVisible();
+        });
+
+        await test.step('delete the message', async({ page }) => {
+            await message.click({ button: 'right' });
+            await mainPage.menuitemDelete.click();
+        });
+
+        await test.step('check that the message is gone', async ({ page }) => {
+            await expect(message).toBeHidden();
+        });
+    });
 });

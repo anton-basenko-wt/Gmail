@@ -17,6 +17,8 @@ export class MainPage {
     sendButton;
     /** @type {import('@playwright/test').Locator} */
     alertDialog;
+    /** @type {import('@playwright/test').Locator} */
+    menuitemDelete;
 
     constructor(page) {
         this.page = page;
@@ -27,6 +29,7 @@ export class MainPage {
         this.messageInput = this.composeRegion.getByRole('textbox', {name: 'Message Body'});
         this.sendButton = this.page.getByRole('button', {name: /Send.*Enter/i});
         this.alertDialog = this.page.getByRole('alertdialog');
+        this.menuitemDelete = this.page.getByRole('menuitem', {name: 'Delete'});
     }
 
     async goto() {
