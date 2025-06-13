@@ -65,4 +65,12 @@ export class MainPage {
     async getMessageBySubject(subject) {
         return this.page.locator('tr', { hasText: subject }).last();
     }
+
+    async getStarredButton(email) {
+        return await email.getByRole('button', { name: 'Starred' });
+    }
+
+    async getNotStarredButton(email) {
+        return await email.getByRole('button', { name: 'Not starred' });
+    }
 }

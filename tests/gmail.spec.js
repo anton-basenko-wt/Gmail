@@ -162,4 +162,59 @@ test.describe('Gmail with context', () => {
             await expect(forwardedMessage).toBeVisible();
         });
     });
+
+    test('should star email', async ({ page }) => {
+        // 7-digit long hexadecimal hash
+        const randomSubject = generateHash(7);
+        const text = 'Hello there!';
+
+        await test.step('send email', async ({ page }) => {
+            await mainPage.sendEmail(emailAddress, randomSubject, text);
+        });
+
+        // get the message locator
+        const message = await mainPage.getMessageBySubject(randomSubject);
+        const notStarredButton = await mainPage.getNotStarredButton(message);
+        await test.step('check its not starred', async ({ page }) => {
+            await expect(message).not.toContainText('starred');
+        });
+
+        await test.step('star email', async ({ page }) => {
+            await notStarredButton.click();
+        });
+
+        await test.step('check its starred', async ({ page }) => {
+            await expect(message).toContainText('starred');
+        });
+    });
+
+    test('should unstar email', async ({ page }) => {
+        // 7-digit long hexadecimal hash
+        const randomSubject = generateHash(7);
+        const text = 'Hello there!';
+
+        await test.step('send email', async ({ page }) => {
+            await mainPage.sendEmail(emailAddress, randomSubject, text);
+        });
+
+        // get the message locator
+        const message = await mainPage.getMessageBySubject(randomSubject);
+        const starredButton = await mainPage.getStarredButton(message);
+        const notStarredButton = await mainPage.getNotStarredButton(message);
+        await test.step('check its not starred', async ({ page }) => {
+            await expect(message).not.toContainText('starred');
+        });
+
+        await test.step('star email', async ({ page }) => {
+            await notStarredButton.click();
+        });
+
+        await test.step('unstar email', async ({ page }) => {
+            await starredButton.click();
+        });
+
+        await test.step('check its not starred', async ({ page }) => {
+            await expect(message).not.toContainText('starred');
+        });
+    });
 });
