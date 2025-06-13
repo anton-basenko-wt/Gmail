@@ -1,5 +1,6 @@
 import { test, expect } from './fixtures/persistentContext';
 import { MainPage } from '../pages/mainPage';
+import { BasePO } from '../pages/basePO';
 import { generateHash } from "../utils/hashGen";
 
 /** @type {import('../pages/mainPage').MainPage}*/
@@ -18,13 +19,13 @@ test.describe('Gmail with context', () => {
 
     test('should open compose region', async ({ page }) => {
         await expect(mainPage.composeRegion).toBeHidden();
-        await mainPage.composeButton.click();
+        await BasePO.leftClick(mainPage.composeButton);
         await expect(mainPage.composeRegion).toBeVisible();
     });
 
     test('should close compose region', async ({ page }) => {
-        await mainPage.composeButton.click();
-        await mainPage.saveAndCloseButton.click();
+        await BasePO.leftClick(mainPage.composeButton);
+        await BasePO.leftClick(mainPage.saveAndCloseButton);
         await expect(mainPage.composeRegion).toBeHidden();
     });
 
@@ -69,8 +70,8 @@ test.describe('Gmail with context', () => {
         });
 
         await test.step('delete the message', async({ page }) => {
-            await message.click({ button: 'right' });
-            await mainPage.menuitemDelete.click();
+            await BasePO.rightClick(message);
+            await BasePO.leftClick(mainPage.menuitemDelete);
         });
 
         await test.step('check that the message is gone', async ({ page }) => {
@@ -94,8 +95,8 @@ test.describe('Gmail with context', () => {
         });
 
         await test.step('mark as read', async ({ page }) => {
-            await message.click({ button: 'right' });
-            await mainPage.menuitemMarkAsRead.click();
+            await BasePO.rightClick(message);
+            await BasePO.leftClick(mainPage.menuitemMarkAsRead);
         });
 
         await test.step('check its read', async ({ page }) => {
@@ -119,13 +120,13 @@ test.describe('Gmail with context', () => {
         });
 
         await test.step('mark as read', async ({ page }) => {
-            await message.click({ button: 'right' });
-            await mainPage.menuitemMarkAsRead.click();
+            await BasePO.rightClick(message);
+            await BasePO.leftClick(mainPage.menuitemMarkAsRead);
         });
 
         await test.step('mark as unread', async ({ page }) => {
-            await message.click({ button: 'right' });
-            await mainPage.menuitemMarkAsUnread.click();
+            await BasePO.rightClick(message);
+            await BasePO.leftClick(mainPage.menuitemMarkAsUnread);
         });
 
         await test.step('check its unread', async ({ page }) => {
@@ -145,8 +146,8 @@ test.describe('Gmail with context', () => {
         // get the message locator
         const message = await mainPage.getMessageBySubject(randomSubject);
         await test.step('mark as read', async ({ page }) => {
-            await message.click({ button: 'right' });
-            await mainPage.menuitemMarkAsRead.click();
+            await BasePO.rightClick(message);
+            await BasePO.leftClick(mainPage.menuitemMarkAsRead);
         });
 
         await test.step('forward email', async ({ page }) => {
@@ -180,7 +181,7 @@ test.describe('Gmail with context', () => {
         });
 
         await test.step('star email', async ({ page }) => {
-            await notStarredButton.click();
+            await BasePO.leftClick(notStarredButton);
         });
 
         await test.step('check its starred', async ({ page }) => {
@@ -206,11 +207,11 @@ test.describe('Gmail with context', () => {
         });
 
         await test.step('star email', async ({ page }) => {
-            await notStarredButton.click();
+            await BasePO.leftClick(notStarredButton);
         });
 
         await test.step('unstar email', async ({ page }) => {
-            await starredButton.click();
+            await BasePO.BasePO.leftClick(starredButton);
         });
 
         await test.step('check its not starred', async ({ page }) => {
