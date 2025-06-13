@@ -19,6 +19,10 @@ export class MainPage {
     alertDialog;
     /** @type {import('@playwright/test').Locator} */
     menuitemDelete;
+    /** @type {import('@playwright/test').Locator} */
+    menuitemMarkAsRead;
+    /** @type {import('@playwright/test').Locator} */
+    menuitemMarkAsUnread;
 
     constructor(page) {
         this.page = page;
@@ -30,6 +34,8 @@ export class MainPage {
         this.sendButton = this.page.getByRole('button', {name: /Send.*Enter/i});
         this.alertDialog = this.page.getByRole('alertdialog');
         this.menuitemDelete = this.page.getByRole('menuitem', {name: 'Delete'});
+        this.menuitemMarkAsRead = this.page.getByRole('menuitem', {name: 'Mark as read'});
+        this.menuitemMarkAsUnread = this.page.getByRole('menuitem', {name: 'Mark as unread'});
     }
 
     async goto() {

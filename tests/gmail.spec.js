@@ -77,4 +77,59 @@ test.describe('Gmail with context', () => {
             await expect(message).toBeHidden();
         });
     });
+
+    test('should mark message as read', async ({ page }) => {
+        // 7-digit long hexadecimal hash
+        const randomSubject = generateHash(7);
+        const text = 'Hello there!';
+
+        await test.step('send email', async ({ page }) => {
+            await mainPage.sendEmail(email, randomSubject, text);
+        });
+
+        // get the message locator
+        const message = await mainPage.getMessageBySubject(randomSubject);
+        await test.step('check its unread', async ({ page }) => {
+            await expect(message).toContainText('unread');
+        });
+
+        await test.step('mark as read', async ({ page }) => {
+            await message.click({ button: 'right' });
+            await mainPage.menuitemMarkAsRead.click();
+        });
+
+        await test.step('check its read', async ({ page }) => {
+            await expect(message).not.toContainText('unread');
+        });
+    });
+
+    test('should mark message as unread', async ({ page }) => {
+        // 7-digit long hexadecimal hash
+        const randomSubject = generateHash(7);
+        const text = 'Hello there!';
+
+        await test.step('send email', async ({ page }) => {
+            await mainPage.sendEmail(email, randomSubject, text);
+        });
+
+        // get the message locator
+        const message = await mainPage.getMessageBySubject(randomSubject);
+        await test.step('check its unread', async ({ page }) => {
+            await expect(message).toContainText('unread');
+        });
+
+        await test.step('mark as read', async ({ page }) => {
+            await message.click({ button: 'right' });
+            await mainPage.menuitemMarkAsRead.click();
+        });
+
+        await test.step('mark as unread', async ({ page }) => {
+            await message.click({ button: 'right' });
+            await mainPage.menuitemMarkAsUnread.click();
+        });
+
+        await test.step('check its unread', async ({ page }) => {
+            await expect(message).toContainText('unread');
+        });
+    });
 });
