@@ -48,7 +48,7 @@ test.describe('Gmail with context', () => {
         const randomSubject = generateHash(7);
         const text = 'Hello there!';
         await mainPage.sendEmail(emailAddress, randomSubject, text);
-        const message = await mainPage.getMessageBySubject(randomSubject);
+        const message = mainPage.getMessageBySubject(randomSubject);
         await expect(message).toBeVisible();
         // message should contain the start of the text
         await expect(message).toContainText(text.length > 10 ? text.substring(10) : text);
@@ -64,7 +64,7 @@ test.describe('Gmail with context', () => {
         });
 
         // get the message locator
-        const message = await mainPage.getMessageBySubject(randomSubject);
+        const message = mainPage.getMessageBySubject(randomSubject);
         await test.step('check that we received the message', async ({ page }) => {
             await expect(message).toBeVisible();
         });
@@ -89,7 +89,7 @@ test.describe('Gmail with context', () => {
         });
 
         // get the message locator
-        const message = await mainPage.getMessageBySubject(randomSubject);
+        const message = mainPage.getMessageBySubject(randomSubject);
         await test.step('check its unread', async ({ page }) => {
             await expect(message).toContainText('unread');
         });
@@ -114,7 +114,7 @@ test.describe('Gmail with context', () => {
         });
 
         // get the message locator
-        const message = await mainPage.getMessageBySubject(randomSubject);
+        const message = mainPage.getMessageBySubject(randomSubject);
         await test.step('check its unread', async ({ page }) => {
             await expect(message).toContainText('unread');
         });
@@ -144,7 +144,7 @@ test.describe('Gmail with context', () => {
         });
 
         // get the message locator
-        const message = await mainPage.getMessageBySubject(randomSubject);
+        const message = mainPage.getMessageBySubject(randomSubject);
         await test.step('mark as read', async ({ page }) => {
             await BasePO.rightClick(message);
             await BasePO.leftClick(mainPage.menuitemMarkAsRead);
@@ -174,8 +174,8 @@ test.describe('Gmail with context', () => {
         });
 
         // get the message locator
-        const message = await mainPage.getMessageBySubject(randomSubject);
-        const notStarredButton = await mainPage.getNotStarredButton(message);
+        const message = mainPage.getMessageBySubject(randomSubject);
+        const notStarredButton = mainPage.getNotStarredButton(message);
         await test.step('check its not starred', async ({ page }) => {
             await expect(message).not.toContainText('starred');
         });
@@ -199,9 +199,9 @@ test.describe('Gmail with context', () => {
         });
 
         // get the message locator
-        const message = await mainPage.getMessageBySubject(randomSubject);
-        const starredButton = await mainPage.getStarredButton(message);
-        const notStarredButton = await mainPage.getNotStarredButton(message);
+        const message = mainPage.getMessageBySubject(randomSubject);
+        const starredButton = mainPage.getStarredButton(message);
+        const notStarredButton = mainPage.getNotStarredButton(message);
         await test.step('check its not starred', async ({ page }) => {
             await expect(message).not.toContainText('starred');
         });
