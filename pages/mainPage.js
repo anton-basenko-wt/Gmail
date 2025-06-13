@@ -44,6 +44,18 @@ export class MainPage {
         this.menuitemForward = this.page.getByRole('menuitem', {name: 'Forward', exact: true});
     }
 
+    async getMessageBySubject(subject) {
+        return this.page.locator('tr', { hasText: subject }).last();
+    }
+
+    async getStarredButton(email) {
+        return await email.getByRole('button', { name: 'Starred' });
+    }
+
+    async getNotStarredButton(email) {
+        return await email.getByRole('button', { name: 'Not starred' });
+    }
+
     async goto() {
         await this.page.goto('/');
     }
@@ -63,17 +75,5 @@ export class MainPage {
         await this.menuitemForward.click();
         await this.recipientsInput.fill(to);
         await this.sendButton.click();
-    }
-
-    async getMessageBySubject(subject) {
-        return this.page.locator('tr', { hasText: subject }).last();
-    }
-
-    async getStarredButton(email) {
-        return await email.getByRole('button', { name: 'Starred' });
-    }
-
-    async getNotStarredButton(email) {
-        return await email.getByRole('button', { name: 'Not starred' });
     }
 }
