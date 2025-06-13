@@ -211,7 +211,7 @@ test.describe('Gmail with context', () => {
         });
 
         await test.step('unstar email', async ({ page }) => {
-            await BasePO.BasePO.leftClick(starredButton);
+            await BasePO.leftClick(starredButton);
         });
 
         await test.step('check its not starred', async ({ page }) => {

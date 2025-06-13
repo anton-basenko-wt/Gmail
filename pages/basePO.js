@@ -1,9 +1,9 @@
 export class BasePO {
-    async static leftClick(locator) {
+    static async leftClick(locator) {
         await locator.click();
     }
 
-    async static rightClick(locator) {
+    static async rightClick(locator) {
         await locator.click({ button: 'right' });
     }
 }
