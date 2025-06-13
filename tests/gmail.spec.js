@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures/persistentContext';
 import { MainPage } from '../pages/mainPage';
 import { BasePO } from '../pages/basePO';
-import { generateHash } from "../utils/hashGen";
+import { generateHash } from "../utils/commands";
 
 /** @type {import('../pages/mainPage').MainPage}*/
 let mainPage;
