@@ -6,6 +6,7 @@ import { generateHash } from "../utils/commands";
 /** @type {import('../pages/mainPage').MainPage}*/
 let mainPage;
 let emailAddress = 'hello.there.pw@gmail.com';
+const text = 'Hello there!';
 
 test.describe('Gmail with context', () => {
     test.beforeEach(async ({ page }) => {
@@ -46,7 +47,6 @@ test.describe('Gmail with context', () => {
     test('should send email to self', async ({ page }) => {
         // 7-digit long hexadecimal hash
         const randomSubject = generateHash(7);
-        const text = 'Hello there!';
         await mainPage.sendEmail(emailAddress, randomSubject, text);
         const message = mainPage.getMessageBySubject(randomSubject);
         await expect(message).toBeVisible();
@@ -57,7 +57,6 @@ test.describe('Gmail with context', () => {
     test('should delete message', async ({ page }) => {
         // 7-digit long hexadecimal hash
         const randomSubject = generateHash(7);
-        const text = 'Hello there!';
 
         await test.step('send email', async ({ page }) => {
             await mainPage.sendEmail(emailAddress, randomSubject, text);
@@ -82,7 +81,6 @@ test.describe('Gmail with context', () => {
     test('should mark message as read', async ({ page }) => {
         // 7-digit long hexadecimal hash
         const randomSubject = generateHash(7);
-        const text = 'Hello there!';
 
         await test.step('send email', async ({ page }) => {
             await mainPage.sendEmail(emailAddress, randomSubject, text);
@@ -107,7 +105,6 @@ test.describe('Gmail with context', () => {
     test('should mark message as unread', async ({ page }) => {
         // 7-digit long hexadecimal hash
         const randomSubject = generateHash(7);
-        const text = 'Hello there!';
 
         await test.step('send email', async ({ page }) => {
             await mainPage.sendEmail(emailAddress, randomSubject, text);
@@ -137,7 +134,6 @@ test.describe('Gmail with context', () => {
     test('should forward message', async ({ page }) => {
         // 7-digit long hexadecimal hash
         const randomSubject = generateHash(7);
-        const text = 'Hello there!';
 
         await test.step('send email', async ({ page }) => {
             await mainPage.sendEmail(emailAddress, randomSubject, text);
@@ -167,7 +163,6 @@ test.describe('Gmail with context', () => {
     test('should star email', async ({ page }) => {
         // 7-digit long hexadecimal hash
         const randomSubject = generateHash(7);
-        const text = 'Hello there!';
 
         await test.step('send email', async ({ page }) => {
             await mainPage.sendEmail(emailAddress, randomSubject, text);
@@ -192,7 +187,6 @@ test.describe('Gmail with context', () => {
     test('should unstar email', async ({ page }) => {
         // 7-digit long hexadecimal hash
         const randomSubject = generateHash(7);
-        const text = 'Hello there!';
 
         await test.step('send email', async ({ page }) => {
             await mainPage.sendEmail(emailAddress, randomSubject, text);
