@@ -8,6 +8,8 @@ export class MainPage {
     /** @type {import('@playwright/test').Locator} */
     composeRegion;
     /** @type {import('@playwright/test').Locator} */
+    saveAndCloseButton;
+    /** @type {import('@playwright/test').Locator} */
     recipientsInput;
     /** @type {import('@playwright/test').Locator} */
     subjectInput;
@@ -30,6 +32,7 @@ export class MainPage {
         this.page = page;
         this.composeButton = this.page.getByRole('button', {name: 'Compose'});
         this.composeRegion = this.page.getByRole('region', {name: 'New Message'});
+        this.saveAndCloseButton = this.page.getByRole('img', { name: 'Save & close' });
         this.recipientsInput = this.page.getByRole('combobox', {name: 'To recipients'});
         this.subjectInput = this.composeRegion.getByPlaceholder('Subject');
         this.messageInput = this.composeRegion.getByRole('textbox', {name: 'Message Body'});

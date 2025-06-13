@@ -24,7 +24,7 @@ test.describe('Gmail with context', () => {
 
     test('should close compose region', async ({ page }) => {
         await mainPage.composeButton.click();
-        await page.getByRole('img', { name: 'Save & close' }).click();
+        await mainPage.saveAndCloseButton.click();
         await expect(mainPage.composeRegion).toBeHidden();
     });
 
